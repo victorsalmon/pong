@@ -9,8 +9,8 @@ var gulp = require('gulp'),
     prettyerror = require('gulp-prettyerror'),
     babel = require('gulp-babel'),
 
-    inputJS = '/.js/*.js',
-    inputSCSS = '/./scss/style.scss',
+    inputJS = './js/*.js',
+    inputSCSS = './scss/style.scss',
     outputJS = './build/js',
     outputCSS = './build/css';
 
