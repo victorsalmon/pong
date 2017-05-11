@@ -4,7 +4,6 @@ export default class Board {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.element = document.getElementById('board');
   }
 
   render(svg) {
