@@ -31,7 +31,7 @@ export default class Game {
 			KEYS.p2up,
 			KEYS.p2dn
 		)
-		this.ball = new Ball ()
+		this.ball = new Ball (8, this.width, this.height)
 	}
 
 	render() {

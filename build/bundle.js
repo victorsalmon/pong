@@ -77,16 +77,24 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var SVG_NS = exports.SVG_NS = 'http://www.w3.org/2000/svg';
-var PADDLE_SPD = exports.PADDLE_SPD = 10;
-var PADDLE_SHAPE = exports.PADDLE_SHAPE = {
-  width: 8,
-  height: 56
+var PADDLE = exports.PADDLE = {
+  height: 56,
+  speed: 10,
+  width: 8
+};
+var BOARD_SIZE = exports.BOARD_SIZE = {
+  width: 512,
+  height: 256
 };
 var COLORS = exports.COLORS = {
   back: '#353535',
   fore: 'white'
 };
 var PADDING = exports.PADDING = 10;
+var BALL = exports.BALL = {
+  radius: 8,
+  speed: 5
+};
 var KEYS = exports.KEYS = {
   p1up: 'a', // player 1 up key
   p1dn: 'z', // player 1 down key
@@ -139,14 +147,14 @@ var Game = function () {
 		this.width = width;
 		this.height = height;
 		this.gameElement = document.getElementById(element);
-		this.paddleWidth = _settings.PADDLE_SHAPE.width;
-		this.paddleHeight = _settings.PADDLE_SHAPE.height;
+		this.paddleWidth = _settings.PADDLE.width;
+		this.paddleHeight = _settings.PADDLE.height;
 		this.padding = _settings.PADDING;
 
 		this.board = new _Board2.default(width, height);
 		this.player1 = new _Paddle2.default(this.height, this.paddleWidth, this.paddleHeight, this.padding, (this.height - this.paddleHeight) / 2, _settings.KEYS.p1up, _settings.KEYS.p1dn);
 		this.player2 = new _Paddle2.default(this.height, this.paddleWidth, this.paddleHeight, this.width - this.paddleWidth - this.padding, (this.height - this.paddleHeight) / 2, _settings.KEYS.p2up, _settings.KEYS.p2dn);
-		this.ball = new _Ball2.default(8, 256, 128);
+		this.ball = new _Ball2.default();
 	}
 
 	_createClass(Game, [{
@@ -205,6 +213,8 @@ if(false) {
 
 __webpack_require__(3);
 
+var _settings = __webpack_require__(0);
+
 var _Game = __webpack_require__(2);
 
 var _Game2 = _interopRequireDefault(_Game);
@@ -212,7 +222,7 @@ var _Game2 = _interopRequireDefault(_Game);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // create a game instance
-var game = new _Game2.default('game', 512, 256);
+var game = new _Game2.default('game', _settings.BOARD_SIZE.width, _settings.BOARD_SIZE.height);
 
 (function gameLoop() {
     game.render();
@@ -236,33 +246,43 @@ var _settings = __webpack_require__(0);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Board = function () {
-  function Board(r, cx, cy) {
-    _classCallCheck(this, Board);
+var Ball = function () {
+  function Ball() {
+    _classCallCheck(this, Ball);
 
-    this.width = width;
-    this.height = height;
+    this.radius = _settings.BALL.radius;
+    this.reset();
+    this.direction = 1;
   }
 
-  _createClass(Board, [{
+  _createClass(Ball, [{
+    key: 'reset',
+    value: function reset() {
+      this.posX = _settings.BOARD_SIZE.width / 2;
+      this.posY = _settings.BOARD_SIZE.height / 2;
+
+      //Randomize Y velocity
+      this.vy = Math.floor(Math.random() * 2 * _settings.BALL.speed - _settings.BALL.speed);
+      this.vx = this.direction * (6 - Math.abs(this.vy));
+    }
+  }, {
     key: 'render',
     value: function render(svg) {
+      this.posX += this.vx;
+      this.posY += this.xy;
       var circ = document.createElementNS(_settings.SVG_NS, 'circle');
-      circ.setAttributeNS(null, 'r', r);
-      circ.setAttributeNS(null, 'cx', cx);
-      circ.setAttributeNS(null, 'cy', cy);
+      circ.setAttributeNS(null, 'r', this.radius);
+      circ.setAttributeNS(null, 'cx', this.posX);
+      circ.setAttributeNS(null, 'cy', this.posY);
       circ.setAttributeNS(null, 'fill', _settings.COLORS.fore);
       svg.appendChild(circ);
     }
   }]);
 
-  return Board;
+  return Ball;
 }();
 
-//			<circle r="8" cx="256" cy="128" fill="white"/>
-
-
-exports.default = Board;
+exports.default = Ball;
 
 /***/ }),
 /* 6 */
@@ -296,11 +316,11 @@ var Board = function () {
       var line = document.createElementNS(_settings.SVG_NS, 'line');
       rect.setAttributeNS(null, 'width', this.width);
       rect.setAttributeNS(null, 'height', this.height);
-      rect.setAttributeNS(null, 'fill', COLORS.back);
+      rect.setAttributeNS(null, 'fill', _settings.COLORS.back);
       svg.appendChild(rect);
 
       line.setAttributeNS(null, 'stroke-dasharray', '22, 17');
-      line.setAttributeNS(null, 'stroke', COLORS.fore);
+      line.setAttributeNS(null, 'stroke', _settings.COLORS.fore);
       line.setAttributeNS(null, 'stroke-width', '4');
       line.setAttributeNS(null, 'x1', this.width / 2);
       line.setAttributeNS(null, 'x2', this.width / 2);
@@ -343,8 +363,10 @@ var Paddle = function () {
     this.height = height;
     this.x = x;
     this.y = y;
-    this.speed = _settings.PADDLE_SPD;
+    this.speed = _settings.PADDLE.speed;
     this.score = 0;
+
+    //Bind keys to paddles
     document.addEventListener('keydown', function (event) {
       switch (event.key) {
         case up:
@@ -357,16 +379,22 @@ var Paddle = function () {
     });
   }
 
+  //Move paddles but prevent leaving the board surface
+
+
   _createClass(Paddle, [{
     key: 'down',
     value: function down() {
-      this.y = Math.min(this.y + this.speed, this.boardHeight - this.height - 10);
+      this.y = Math.min(this.y + this.speed, this.boardHeight - this.height);
     }
   }, {
     key: 'up',
     value: function up() {
-      this.y = Math.max(10, this.y - this.speed);
+      this.y = Math.max(0, this.y - this.speed);
     }
+
+    //Display paddles
+
   }, {
     key: 'render',
     value: function render(svg) {

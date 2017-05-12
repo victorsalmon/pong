@@ -25,7 +25,7 @@ export default class Paddle {
   //Move paddles but prevent leaving the board surface
   down(){
     this.y = Math.min ((this.y + this.speed),(this.boardHeight - this.height));
-    }
+  }
   up (){
     this.y = Math.max (0, this.y-this.speed)
   }

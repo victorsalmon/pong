@@ -4,16 +4,11 @@ export const PADDLE = {
   speed: 10,
   width: 8,
 }
-export const GAME_SIZE = {
-  width: 512,
-  height: 256
-}
 export const COLORS = {
   back: '#353535',
   fore: 'white',
 }
 export const PADDING = 10;
-export const BALL_SIZE = 8;
 export const KEYS = {
   p1up: 'a',        // player 1 up key
   p1dn: 'z',        // player 1 down key
