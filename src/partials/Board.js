@@ -1,4 +1,4 @@
-import { SVG_NS } from '../settings';
+import { SVG_NS, COLORS } from '../settings';
 export default class Board {
 
   constructor(width, height) {
@@ -11,11 +11,11 @@ export default class Board {
     const line = document.createElementNS(SVG_NS, 'line');
     rect.setAttributeNS(null, 'width', this.width);
     rect.setAttributeNS(null, 'height', this.height);
-    rect.setAttributeNS(null, 'fill', '#353535');
+    rect.setAttributeNS(null, 'fill', COLORS.back);
     svg.appendChild(rect);
 
     line.setAttributeNS(null, 'stroke-dasharray', '22, 17');
-    line.setAttributeNS(null, 'stroke', 'white');
+    line.setAttributeNS(null, 'stroke', COLORS.fore);
     line.setAttributeNS(null, 'stroke-width', '4');
     line.setAttributeNS(null, 'x1', (this.width / 2));
     line.setAttributeNS(null, 'x2', (this.width / 2));
