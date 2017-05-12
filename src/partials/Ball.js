@@ -16,6 +16,7 @@ export default class Ball {
     //Randomize vector and velocity
     this.vy = Math.floor(Math.random() * 2*this.speed - this.speed); 
     this.vx = this.direction * (6 - Math.abs(this.vy));
+    if (this.vy === 0) {this.reset();}
   }
 
   paddleCollision (player1, player2){
@@ -23,6 +24,7 @@ export default class Ball {
         this.posX + this.radius >= player2.coordinates()[0]){
       if (player2.coordinates()[2] >= this.posY ||
           this.posY >= player2.coordinates()[3]){
+      player1.score++;      
       this.reset();
       } else {
       this.vx = -this.vx;
@@ -34,6 +36,7 @@ export default class Ball {
       if (player1.coordinates()[2] >= this.posY ||
           this.posY >= player1.coordinates()[3]){
         this.reset();
+        player2.score++;
       } else {
         this.vx = -this.vx;
       }
