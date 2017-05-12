@@ -9,48 +9,53 @@ export default class Ball {
     this.boardHeight = boardHeight
     this.reset();
   }
-  reset () {
+  reset (direction = this.direction) {
     this.posX = this.boardWidth/2
     this.posY = this.boardHeight/2
 
     //Randomize vector and velocity
     this.vy = Math.floor(Math.random() * 2*this.speed - this.speed); 
-    this.vx = this.direction * (6 - Math.abs(this.vy));
+    this.vx = direction * (6 - Math.abs(this.vy));
     if (this.vy === 0) {this.reset();}
   }
 
   paddleCollision (player1, player2){
+    const [, rightX1, topY1, botY1] = player1.coordinates();
+    const [leftX2,, topY2, botY2] = player2.coordinates();
     if (this.vx > 0 &&
-        this.posX + this.radius >= player2.coordinates()[0]){
-      if (player2.coordinates()[2] >= this.posY ||
-          this.posY >= player2.coordinates()[3]){
-      player1.score++;      
-      this.reset();
-      } else {
+        this.posX + this.radius >= leftX2){
+      if (topY2 >= this.posY ||
+          botY2 <= this.posY){
+            //invert
+          }else {
       this.vx = -this.vx;
       }
     }
-
     if (this.vx < 0 &&
-        this.posX - this.radius <= player1.coordinates()[1]){
-      if (player1.coordinates()[2] >= this.posY ||
-          this.posY >= player1.coordinates()[3]){
-        this.reset();
-        player2.score++;
+        this.posX - this.radius <= rightX1){
+      if (topY1 >= this.posY ||
+          botY1 <= this.posY){
+            //invert
       } else {
         this.vx = -this.vx;
       }
     }
   }
 
-  wallCollision () {
+  wallCollision (player1, player2) {
     const hitLeft = this.posX - this.radius <=0;
     const hitRight = this.posX + this.radius >= this.boardWidth;
     const hitTop = this.posY - this.radius <= 0;
     const hitBottom = this.posY + this.radius >= this.boardHeight;
 
-    if (hitLeft || hitRight){
-      this.vx = -this.vx
+    if (hitLeft) {
+      this.reset(1);
+      player2.score++;
+
+    }
+    if (hitRight){
+      this.reset(-1);
+      player1.score++;
     }
     if (hitTop || hitBottom){
       this.vy = -this.vy
@@ -61,8 +66,8 @@ export default class Ball {
   render(svg, player1, player2) {
     this.posX += this.vx;
     this.posY += this.vy; 
-    this.wallCollision();
     this.paddleCollision(player1, player2);
+    this.wallCollision(player1, player2);
 
     const circ = document.createElementNS(SVG_NS, 'circle');
     circ.setAttributeNS(null, 'r', this.radius);
