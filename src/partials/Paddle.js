@@ -8,6 +8,8 @@ export default class Paddle {
     this.y = y;
     this.speed = PADDLE.speed;
     this.score = 0;
+
+    //Bind keys to paddles
     document.addEventListener('keydown', event => {
       switch (event.key) {
         case up:
@@ -19,13 +21,16 @@ export default class Paddle {
       }
     });
   }
-  down(){
-    this.y = Math.min ((this.y + this.speed),(this.boardHeight - this.height - 10));
-    }
 
+  //Move paddles but prevent leaving the board surface
+  down(){
+    this.y = Math.min ((this.y + this.speed),(this.boardHeight - this.height));
+    }
   up (){
-    this.y = Math.max (10, this.y-this.speed)
+    this.y = Math.max (0, this.y-this.speed)
   }
+
+  //Display paddles
   render(svg) {
     const rect = document.createElementNS(SVG_NS, 'rect');
     rect.setAttributeNS(null, 'width', this.width);
