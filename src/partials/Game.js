@@ -11,6 +11,14 @@ export default class Game {
 		this.paddleWidth = PADDLE.width;
 		this.paddleHeight = PADDLE.height;
 		this.padding = PADDING;
+		this.gamePaused = false;
+ 
+		document.addEventListener('keydown', event => {
+			if (event.key === KEYS.pause){
+				this.gamePaused = !this.gamePaused;
+			}
+
+		});
 
 		this.board = new Board (width, height);
 		this.player1 = new Paddle(
@@ -31,10 +39,11 @@ export default class Game {
 			KEYS.p2up,
 			KEYS.p2dn
 		)
-		this.ball = new Ball (8, this.width, this.height)
+		this.ball = new Ball (this.width, this.height)
 	}
 
 	render() {
+		if (this.gamePaused) {return;}
 		this.gameElement.innerHTML = '';
 		const svg = document.createElementNS(SVG_NS, 'svg');
 		svg.setAttributeNS(null, 'width', this.width);
@@ -44,7 +53,7 @@ export default class Game {
 		this.board.render(svg);
 		this.player1.render(svg);
 		this.player2.render(svg);
-		this.ball.render (svg);
+		this.ball.render (svg, this.player1, this.player2);
 
 
 

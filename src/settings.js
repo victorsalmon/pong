@@ -14,5 +14,5 @@ export const KEYS = {
   p1dn: 'z',        // player 1 down key
   p2up: 'ArrowUp',       // player 2 up key
   p2dn: 'ArrowDown',     // player 2 down key
-  spaceBar: ' ',
+  pause: ' ',
 }
