@@ -1,4 +1,4 @@
-import { SVG_NS, COLORS} from '../settings';
+import { SVG_NS, COLORS } from '../settings';
 export default class Ball {
 
   constructor(boardWidth, boardHeight) {
@@ -8,42 +8,45 @@ export default class Ball {
     this.boardWidth = boardWidth
     this.boardHeight = boardHeight
     this.reset();
+    this.ping = new Audio('public/sounds/pong-04.wave');
   }
-  reset (direction = this.direction) {
-    this.posX = this.boardWidth/2
-    this.posY = this.boardHeight/2
+  reset(direction = this.direction) {
+    this.posX = this.boardWidth / 2
+    this.posY = this.boardHeight / 2
 
     //Randomize vector and velocity
-    this.vy = Math.floor(Math.random() * 2*this.speed - this.speed); 
+    this.vy = Math.floor(Math.random() * 2 * this.speed - this.speed);
     this.vx = direction * (6 - Math.abs(this.vy));
-    if (this.vy === 0) {this.reset();}
+    if (this.vy === 0) { this.reset(); }
   }
 
-  paddleCollision (player1, player2){
+  paddleCollision(player1, player2) {
     const [, rightX1, topY1, botY1] = player1.coordinates();
-    const [leftX2,, topY2, botY2] = player2.coordinates();
+    const [leftX2, , topY2, botY2] = player2.coordinates();
     if (this.vx > 0 &&
-        this.posX + this.radius >= leftX2){
+      this.posX + this.radius >= leftX2) {
       if (topY2 >= this.posY ||
-          botY2 <= this.posY){
-            //invert
-          }else {
-      this.vx = -this.vx;
+        botY2 <= this.posY) {
+        //invert
+      } else {
+        this.vx = -this.vx;
+        this.ping.play;
       }
     }
     if (this.vx < 0 &&
-        this.posX - this.radius <= rightX1){
+      this.posX - this.radius <= rightX1) {
       if (topY1 >= this.posY ||
-          botY1 <= this.posY){
-            //invert
+        botY1 <= this.posY) {
+        //invert
       } else {
         this.vx = -this.vx;
+        this.ping.play;
       }
     }
   }
 
-  wallCollision (player1, player2) {
-    const hitLeft = this.posX - this.radius <=0;
+  wallCollision(player1, player2) {
+    const hitLeft = this.posX - this.radius <= 0;
     const hitRight = this.posX + this.radius >= this.boardWidth;
     const hitTop = this.posY - this.radius <= 0;
     const hitBottom = this.posY + this.radius >= this.boardHeight;
@@ -53,11 +56,11 @@ export default class Ball {
       player2.score++;
 
     }
-    if (hitRight){
+    if (hitRight) {
       this.reset(-1);
       player1.score++;
     }
-    if (hitTop || hitBottom){
+    if (hitTop || hitBottom) {
       this.vy = -this.vy
     }
   }
@@ -65,7 +68,7 @@ export default class Ball {
 
   render(svg, player1, player2) {
     this.posX += this.vx;
-    this.posY += this.vy; 
+    this.posY += this.vy;
     this.paddleCollision(player1, player2);
     this.wallCollision(player1, player2);
 

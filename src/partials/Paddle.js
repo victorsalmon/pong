@@ -22,19 +22,19 @@ export default class Paddle {
     });
   }
 
-coordinates() {
-  let leftX = this.x;
-  let rightX = this.x + this.width;
-  let topY = this.y;
-  let bottomY = this.y + this.height;
-  return [leftX, rightX, topY, bottomY];
-}
-  //Move paddles but prevent leaving the board surface
-  down(){
-    this.y = Math.min ((this.y + this.speed),(this.boardHeight - this.height));
+  coordinates() {
+    let leftX = this.x;
+    let rightX = this.x + this.width;
+    let topY = this.y;
+    let bottomY = this.y + this.height;
+    return [leftX, rightX, topY, bottomY];
   }
-  up (){
-    this.y = Math.max (0, this.y-this.speed)
+  //Move paddles but prevent leaving the board surface
+  down() {
+    this.y = Math.min((this.y + this.speed), (this.boardHeight - this.height));
+  }
+  up() {
+    this.y = Math.max(0, this.y - this.speed)
   }
 
   //Display paddles

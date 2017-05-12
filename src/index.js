@@ -7,6 +7,6 @@ const boardHeight = 256;
 let game = new Game('game', boardWidth, boardHeight);
 
 (function gameLoop() {
-      game.render();
+    game.render();
     requestAnimationFrame(gameLoop);
 })();
