@@ -7,7 +7,7 @@ config.paddleWidth = SETTINGS.paddleWidth;
 config.padding = SETTINGS.padding;
 
 //configure
-if (confirm('Do you want to configure pong? If yes, you must enter a value and each must be a number')) {
+if (confirm('Do you want to configure pong? If yes, you must enter a value and each must be a number.')) {
     config.ballRadius = parseInt(prompt('In pixels, how big should the ball radius be? (default is 8)', 8))
     config.ballSpeed = parseInt(prompt('In pixels, how fast should the ball fly? (default is 4)', 4))
     config.boardWidth = parseInt(prompt('In pixels, how wide should the game be? (default is 512)', 512))
