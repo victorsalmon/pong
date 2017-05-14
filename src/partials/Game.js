@@ -1,33 +1,37 @@
-import { SVG_NS, KEYS, PADDLE, PADDING } from '../settings';
+import { SVG_NS, KEYS } from '../settings';
 import Board from './Board';
 import Paddle from './Paddle';
 import Ball from './Ball';
 import Score from './Score';
 export default class Game {
 
-	constructor(element, width, height) {
-		this.width = width;
-		this.height = height;
+	constructor(element, settings) {
+		this.width = settings.boardWidth;
+		this.height = settings.boardHeight;
 		this.gameElement = document.getElementById(element);
-		this.paddleWidth = PADDLE.width;
-		this.paddleHeight = PADDLE.height;
-		this.padding = PADDING;
+		this.paddleWidth = settings.paddleWidth;
+		this.paddleHeight = settings.paddleHeight;
+		this.paddleSpeed = settings.paddleSpeed;
+		this.padding = settings.padding;
 		this.gamePaused = false;
 		this.scoreSize = 30;
-		this.scoreHeight = 3 * PADDING;
+		this.scoreHeight = 3 * settings.padding;
 
 		document.addEventListener('keydown', event => {
 			if (event.key === KEYS.pause) {
 				this.gamePaused = !this.gamePaused;
 			}
-
 		});
+		this.reset();
+	}
 
-		this.board = new Board(width, height);
+	reset (){
+		this.board = new Board(this.width, this.height);
 		this.player1 = new Paddle(
 			this.height,
 			this.paddleWidth,
 			this.paddleHeight,
+			this.paddleSpeed,
 			this.padding,
 			(this.height - this.paddleHeight) / 2,
 			KEYS.p1up,
@@ -37,6 +41,7 @@ export default class Game {
 			this.height,
 			this.paddleWidth,
 			this.paddleHeight,
+			this.paddleSpeed,
 			this.width - this.paddleWidth - this.padding,
 			(this.height - this.paddleHeight) / 2,
 			KEYS.p2up,
@@ -49,6 +54,15 @@ export default class Game {
 
 	render() {
 		if (this.gamePaused) { return; }
+		if (this.player1.score >= 11) {
+			alert ('Player 1 Wins!');
+			this.reset ();
+		}
+		if (this.player2.score >= 11){
+			alert ('Player 2 Wins!');
+			this.reset ();
+		}
+
 		this.gameElement.innerHTML = '';
 		const svg = document.createElementNS(SVG_NS, 'svg');
 		svg.setAttributeNS(null, 'width', this.width);

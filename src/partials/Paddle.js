@@ -1,12 +1,12 @@
-import { SVG_NS, PADDLE } from '../settings';
+import { SVG_NS } from '../settings';
 export default class Paddle {
-  constructor(boardHeight, width, height, x, y, up, down) {
+  constructor(boardHeight, width, height, speed, x, y, up, down) {
     this.boardHeight = boardHeight;
     this.width = width;
     this.height = height;
     this.x = x;
     this.y = y;
-    this.speed = PADDLE.speed;
+    this.speed = speed;
     this.score = 0;
 
     //Bind keys to paddles

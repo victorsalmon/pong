@@ -1,10 +1,9 @@
 import './styles/game.css';
+import { SETTINGS } from './settings'
 import Game from './partials/Game';
 
 // create a game instance
-const boardWidth = 512;
-const boardHeight = 256;
-let game = new Game('game', boardWidth, boardHeight);
+let game = new Game('game', SETTINGS);
 
 (function gameLoop() {
     game.render();

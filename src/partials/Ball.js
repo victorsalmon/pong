@@ -17,7 +17,7 @@ export default class Ball {
 
     //Randomize vector and velocity
     this.vy = Math.floor(Math.random() * 2 * this.speed - this.speed);
-    this.vx = direction * (6 - Math.abs(this.vy));
+    this.vx = direction * (7 - Math.abs(this.vy));
     if (this.vy === 0) { this.reset(); }
   }
 
