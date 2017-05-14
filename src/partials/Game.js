@@ -12,6 +12,8 @@ export default class Game {
 		this.paddleWidth = settings.paddleWidth;
 		this.paddleHeight = settings.paddleHeight;
 		this.paddleSpeed = settings.paddleSpeed;
+		this.ballRadius = settings.ballRadius;
+		this.ballSpeed = settings.ballSpeed;
 		this.padding = settings.padding;
 		this.gamePaused = false;
 		this.scoreSize = 30;
@@ -25,7 +27,7 @@ export default class Game {
 		this.reset();
 	}
 
-	reset (){
+	reset (){				//If someone won, reset the game
 		this.board = new Board(this.width, this.height);
 		this.player1 = new Paddle(
 			this.height,
@@ -47,22 +49,28 @@ export default class Game {
 			KEYS.p2up,
 			KEYS.p2dn
 		)
-		this.ball = new Ball(this.width, this.height)
+		this.ball = new Ball(this.width, this.height, this.ballRadius, this.ballSpeed)
 		this.score1 = new Score(this.player1, this.scoreSize, this.width / 4, this.scoreHeight);
 		this.score2 = new Score(this.player2, this.scoreSize, 3 * this.width / 4, this.scoreHeight);
 	}
 
 	render() {
+		//Is the game paused?
 		if (this.gamePaused) { return; }
+
+		//Did either player win?
 		if (this.player1.score >= 11) {
-			alert ('Player 1 Wins!');
-			this.reset ();
+			if (confirm ('Player 1 Wins! Click OK to play again! Click cancel to reconfigure!')){
+				this.reset ();
+			} else {(location.reload())}
 		}
 		if (this.player2.score >= 11){
-			alert ('Player 2 Wins!');
-			this.reset ();
+			if (confirm ('Player 2 Wins! Click OK to play again! Click cancel to reconfigure!')){
+				this.reset ();
+			} else {(location.reload())}
 		}
 
+		//Render game
 		this.gameElement.innerHTML = '';
 		const svg = document.createElementNS(SVG_NS, 'svg');
 		svg.setAttributeNS(null, 'width', this.width);

@@ -1,10 +1,10 @@
 import { SVG_NS, COLORS } from '../settings';
 export default class Ball {
 
-  constructor(boardWidth, boardHeight) {
-    this.radius = 8;
+  constructor(boardWidth, boardHeight, radius, speed) {
+    this.radius = radius;
     this.direction = 1;
-    this.speed = 5;
+    this.speed = speed;
     this.boardWidth = boardWidth
     this.boardHeight = boardHeight
     this.reset();
@@ -17,7 +17,7 @@ export default class Ball {
 
     //Randomize vector and velocity
     this.vy = Math.floor(Math.random() * 2 * this.speed - this.speed);
-    this.vx = direction * (7 - Math.abs(this.vy));
+    this.vx = direction * (this.speed + 2 - Math.abs(this.vy));
     if (this.vy === 0) { this.reset(); }
   }
 
