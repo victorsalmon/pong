@@ -27,7 +27,7 @@ export default class Game {
 		this.reset();
 	}
 
-	reset (){				//If someone won, reset the game
+	reset() {				//If someone won, reset the game
 		this.board = new Board(this.width, this.height);
 		this.player1 = new Paddle(
 			this.height,
@@ -60,14 +60,14 @@ export default class Game {
 
 		//Did either player win?
 		if (this.player1.score >= 11) {
-			if (confirm ('Player 1 Wins! Click OK to play again! Click cancel to reconfigure!')){
-				this.reset ();
-			} else {(location.reload())}
+			if (confirm('Player 1 Wins! Click OK to play again! Click cancel to reconfigure!')) {
+				this.reset();
+			} else { (location.reload()) }
 		}
-		if (this.player2.score >= 11){
-			if (confirm ('Player 2 Wins! Click OK to play again! Click cancel to reconfigure!')){
-				this.reset ();
-			} else {(location.reload())}
+		if (this.player2.score >= 11) {
+			if (confirm('Player 2 Wins! Click OK to play again! Click cancel to reconfigure!')) {
+				this.reset();
+			} else { (location.reload()) }
 		}
 
 		//Render game
