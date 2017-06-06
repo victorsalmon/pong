@@ -119,6 +119,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+// retrieve modules to build out the game
+
+
 var _settings = __webpack_require__(0);
 
 var _Board = __webpack_require__(6);
@@ -142,6 +145,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Game = function () {
+
+	// accept binding element and settings from config tool 
 	function Game(element, settings) {
 		var _this = this;
 
@@ -173,9 +178,15 @@ var Game = function () {
 		value: function reset() {
 			//If someone won, reset the game
 			this.board = new _Board2.default(this.width, this.height);
+
+			// create paddles for each player bound to keys from settings
 			this.player1 = new _Paddle2.default(this.height, this.paddleWidth, this.paddleHeight, this.paddleSpeed, this.padding, (this.height - this.paddleHeight) / 2, _settings.KEYS.p1up, _settings.KEYS.p1dn);
 			this.player2 = new _Paddle2.default(this.height, this.paddleWidth, this.paddleHeight, this.paddleSpeed, this.width - this.paddleWidth - this.padding, (this.height - this.paddleHeight) / 2, _settings.KEYS.p2up, _settings.KEYS.p2dn);
+
+			// create a ball based on settings
 			this.ball = new _Ball2.default(this.width, this.height, this.ballRadius, this.ballSpeed);
+
+			// scores are kept as objects on each player's paddle
 			this.score1 = new _Score2.default(this.player1, this.scoreSize, this.width / 4, this.scoreHeight);
 			this.score2 = new _Score2.default(this.player2, this.scoreSize, 3 * this.width / 4, this.scoreHeight);
 		}
@@ -271,8 +282,8 @@ var config = _settings.SETTINGS;
 config.paddleWidth = _settings.SETTINGS.paddleWidth;
 config.padding = _settings.SETTINGS.padding;
 
-//configure
-if (confirm('Do you want to configure pong? If yes, you must enter a value and each must be a number')) {
+// quick configuration script
+if (confirm('Do you want to configure pong? If yes, you must enter a value and each must be a number.')) {
     config.ballRadius = parseInt(prompt('In pixels, how big should the ball radius be? (default is 8)', 8));
     config.ballSpeed = parseInt(prompt('In pixels, how fast should the ball fly? (default is 4)', 4));
     config.boardWidth = parseInt(prompt('In pixels, how wide should the game be? (default is 512)', 512));
@@ -284,6 +295,7 @@ if (confirm('Do you want to configure pong? If yes, you must enter a value and e
 // create a game instance
 var game = new _Game2.default('game', config);
 
+// run the game
 (function gameLoop() {
     game.render();
     requestAnimationFrame(gameLoop);
@@ -322,6 +334,9 @@ var Ball = function () {
     this.ping2 = new Audio('public/sounds/pong-02.wav');
   }
 
+  // reset the game
+
+
   _createClass(Ball, [{
     key: 'reset',
     value: function reset() {
@@ -337,6 +352,9 @@ var Ball = function () {
         this.reset();
       }
     }
+
+    // detect ball-paddle bounces
+
   }, {
     key: 'paddleCollision',
     value: function paddleCollision(player1, player2) {
@@ -369,6 +387,9 @@ var Ball = function () {
         }
       }
     }
+
+    // detect ball-wall bounces
+
   }, {
     key: 'wallCollision',
     value: function wallCollision(player1, player2) {
@@ -391,6 +412,9 @@ var Ball = function () {
         this.vy = -this.vy;
       }
     }
+
+    // draw the ball where it's supposed to be now
+
   }, {
     key: 'render',
     value: function render(svg, player1, player2) {
@@ -431,12 +455,17 @@ var _settings = __webpack_require__(0);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Board = function () {
+
+  // accept settings on how large of a board to draw from config tool
   function Board(width, height) {
     _classCallCheck(this, Board);
 
     this.width = width;
     this.height = height;
   }
+
+  // draw the board
+
 
   _createClass(Board, [{
     key: 'render',
@@ -571,11 +600,17 @@ var Score = function () {
   function Score(player, size, x, y) {
     _classCallCheck(this, Score);
 
+    // which player's score this is
     this.player = player;
+
+    // display settings
     this.size = size;
     this.x = x;
     this.y = y;
   }
+
+  // draw the score
+
 
   _createClass(Score, [{
     key: 'render',
@@ -605,7 +640,7 @@ exports = module.exports = __webpack_require__(10)();
 
 
 // module
-exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \r\n   v2.0 | 20110126\r\n   License: none (public domain)\r\n*/\r\n\r\nhtml, body, div, span, applet, object, iframe,\r\nh1, h2, h3, h4, h5, h6, p, blockquote, pre,\r\na, abbr, acronym, address, big, cite, code,\r\ndel, dfn, em, img, ins, kbd, q, s, samp,\r\nsmall, strike, strong, sub, sup, tt, var,\r\nb, u, i, center,\r\ndl, dt, dd, ol, ul, li,\r\nfieldset, form, label, legend,\r\ntable, caption, tbody, tfoot, thead, tr, th, td,\r\narticle, aside, canvas, details, embed, \r\nfigure, figcaption, footer, header, hgroup, \r\nmenu, nav, output, ruby, section, summary,\r\ntime, mark, audio, video {\r\n\tmargin: 0;\r\n\tpadding: 0;\r\n\tborder: 0;\r\n\tfont-size: 100%;\r\n\tfont: inherit;\r\n\tvertical-align: baseline;\r\n}\r\n/* HTML5 display-role reset for older browsers */\r\narticle, aside, details, figcaption, figure, \r\nfooter, header, hgroup, menu, nav, section {\r\n\tdisplay: block;\r\n}\r\nbody {\r\n\tline-height: 1;\r\n}\r\nol, ul {\r\n\tlist-style: none;\r\n}\r\nblockquote, q {\r\n\tquotes: none;\r\n}\r\nblockquote:before, blockquote:after,\r\nq:before, q:after {\r\n\tcontent: '';\r\n\tcontent: none;\r\n}\r\ntable {\r\n\tborder-collapse: collapse;\r\n\tborder-spacing: 0;\r\n}\r\n\r\n/**\r\n * FONTS\r\n */\r\n\r\n@font-face {\r\n  font-family: 'Silkscreen Web';\r\n  src: url(" + __webpack_require__(1) + ");\r\n  src: url(" + __webpack_require__(1) + "?#iefix) format('embedded-opentype'),\r\n    url(" + __webpack_require__(13) + ") format('woff'),\r\n    url(" + __webpack_require__(12) + ") format('truetype'),\r\n    url(" + __webpack_require__(11) + "#silkscreennormal) format('svg');\r\n  font-weight: normal;\r\n  font-style: normal;\r\n}\r\n\r\n/**\r\n * GAME\r\n */\r\n\r\nhtml {\r\n  font-size: 16px;\r\n}\r\n\r\nbody {\r\n  align-items: center;\r\n  display: flex;\r\n  font-family: 'Silkscreen Web', monotype;\r\n  height: 100vh;\r\n  justify-content: center;\r\n  width: 100%;\r\n}\r\n\r\nh1 {\r\n  font-size: 2.5rem;\r\n  margin-bottom: 1rem; \r\n  text-align: center;\r\n}\r\n", ""]);
+exports.push([module.i, "/* http://meyerweb.com/eric/tools/css/reset/ \r\n   v2.0 | 20110126\r\n   License: none (public domain)\r\n*/\r\n\r\nhtml, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {\r\n  margin: 0;\r\n  padding: 0;\r\n  border: 0;\r\n  font-size: 100%;\r\n  font: inherit;\r\n  vertical-align: baseline;\r\n}\r\n\r\n\r\n/* HTML5 display-role reset for older browsers */\r\n\r\narticle, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {\r\n  display: block;\r\n}\r\n\r\nbody {\r\n  line-height: 1;\r\n}\r\n\r\nol, ul {\r\n  list-style: none;\r\n}\r\n\r\nblockquote, q {\r\n  quotes: none;\r\n}\r\n\r\nblockquote:before, blockquote:after, q:before, q:after {\r\n  content: '';\r\n  content: none;\r\n}\r\n\r\ntable {\r\n  border-collapse: collapse;\r\n  border-spacing: 0;\r\n}\r\n\r\n\r\n/**\r\n * FONTS\r\n */\r\n\r\n@font-face {\r\n  font-family: 'Silkscreen Web';\r\n  src: url(" + __webpack_require__(1) + ");\r\n  src: url(" + __webpack_require__(1) + "?#iefix) format('embedded-opentype'), url(" + __webpack_require__(13) + ") format('woff'), url(" + __webpack_require__(12) + ") format('truetype'), url(" + __webpack_require__(11) + "#silkscreennormal) format('svg');\r\n  font-weight: normal;\r\n  font-style: normal;\r\n}\r\n\r\n\r\n/**\r\n * GAME\r\n */\r\n\r\nhtml {\r\n  font-size: 16px;\r\n}\r\n\r\nbody {\r\n  align-items: center;\r\n  display: flex;\r\n  font-family: 'Silkscreen Web', monotype;\r\n  height: 100vh;\r\n  justify-content: center;\r\n  width: 100%;\r\n}\r\n\r\nh1 {\r\n  font-size: 2.5rem;\r\n  margin-bottom: 1rem;\r\n  text-align: center;\r\n}", ""]);
 
 // exports
 
