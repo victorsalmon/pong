@@ -1,20 +1,13 @@
 # Pong Game
+## ES2015 Concepts, SVG Simplicity
+This is an SVG-based pong game that demonstrates ES2015, Babel, webpack, and XML namespace skills.
 
-A basic pong game using SVGs.
+## Faithfully Rendered Classic
 
-## Setup
+<img src="https://raw.githubusercontent.com/victorsalmon/pong/master/public/images/pong-default.png">
 
-**Install dependencies:**
+<img src="https://raw.githubusercontent.com/victorsalmon/pong/master/public/images/pong-custom.png">
 
-`> npm i`
-
-**Run locally with Webpack Dev Server:**
-
-`> npm start`
-
-**Build for production:**
-
-`> npm run build`
 
 ## Keys
 
