@@ -12,10 +12,12 @@ By using the prompt for configuration, rules can be changed including ball radiu
 <img src="https://raw.githubusercontent.com/victorsalmon/pong/master/public/images/pong-custom.png">
 
 ...and some pretty challenging/absurd ones:
+
 <img src="https://raw.githubusercontent.com/victorsalmon/pong/master/public/images/pong-challenge.png">
 
 ## Score-Keeping and Victory Conditions
 As with any complete game of pong, scores are kept and winners are announced, resetting the game immediately afterwards and calling the configuration confirm. To play the same rules again, simply click cancel on the config tool and it immediately aborts running, resetting the game as is.
+
 <img src="https://raw.githubusercontent.com/victorsalmon/pong/master/public/images/pong-victory.png">
 
 ## How to Play
@@ -23,9 +25,11 @@ Games go to 11 as with table tennis. Keys are as follows:
 
 
 P1 Up: a
+
 P1 Down: z
 
 Pause: spacebar
 
 P2 Up: ▲
+
 P2 Down: ▼
