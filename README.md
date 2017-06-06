@@ -16,7 +16,7 @@ By using the prompt for configuration, rules can be changed including ball radiu
 <img src="https://raw.githubusercontent.com/victorsalmon/pong/master/public/images/pong-challenge.png">
 
 ## Score-Keeping and Victory Conditions
-As with any complete game of pong, scores are kept and winners are announced, resetting the game immediately afterwards and calling the configuration confirm. To play the same rules again, simply click cancel on the config tool and it immediately aborts running, resetting the game as is.
+As with any complete game of pong, scores are kept and winners are announced, resetting the game immediately afterwards. To play the same rules again, simply click OK. Alternatively, click cancel to try out some new settings you might enjoy even more.
 
 <img src="https://raw.githubusercontent.com/victorsalmon/pong/master/public/images/pong-victory.png">
 
