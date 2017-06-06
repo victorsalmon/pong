@@ -2,12 +2,16 @@ import { SVG_NS } from '../settings';
 export default class Score {
 
   constructor(player, size, x, y) {
+    // which player's score this is
     this.player = player;
+
+    // display settings
     this.size = size;
     this.x = x;
     this.y = y;
   }
 
+  // draw the score
   render(svg) {
     let score = document.createElementNS(SVG_NS, 'text')
     score.setAttributeNS(null, 'x', this.x);

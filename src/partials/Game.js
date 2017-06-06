@@ -1,10 +1,13 @@
 import { SVG_NS, KEYS } from '../settings';
+
+// retrieve modules to build out the game
 import Board from './Board';
 import Paddle from './Paddle';
 import Ball from './Ball';
 import Score from './Score';
 export default class Game {
 
+	// accept binding element and settings from config tool 
 	constructor(element, settings) {
 		this.width = settings.boardWidth;
 		this.height = settings.boardHeight;
@@ -29,6 +32,8 @@ export default class Game {
 
 	reset() {				//If someone won, reset the game
 		this.board = new Board(this.width, this.height);
+
+		// create paddles for each player bound to keys from settings
 		this.player1 = new Paddle(
 			this.height,
 			this.paddleWidth,
@@ -49,7 +54,11 @@ export default class Game {
 			KEYS.p2up,
 			KEYS.p2dn
 		)
+
+		// create a ball based on settings
 		this.ball = new Ball(this.width, this.height, this.ballRadius, this.ballSpeed)
+		
+		// scores are kept as objects on each player's paddle
 		this.score1 = new Score(this.player1, this.scoreSize, this.width / 4, this.scoreHeight);
 		this.score2 = new Score(this.player2, this.scoreSize, 3 * this.width / 4, this.scoreHeight);
 	}

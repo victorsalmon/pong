@@ -11,6 +11,8 @@ export default class Ball {
     this.ping1 = new Audio('public/sounds/pong-01.wav');
     this.ping2 = new Audio('public/sounds/pong-02.wav');
   }
+
+  // reset the game
   reset(direction = this.direction) {
     this.posX = this.boardWidth / 2
     this.posY = this.boardHeight / 2
@@ -21,6 +23,7 @@ export default class Ball {
     if (this.vy === 0) { this.reset(); }
   }
 
+  // detect ball-paddle bounces
   paddleCollision(player1, player2) {
     const [, rightX1, topY1, botY1] = player1.coordinates();
     const [leftX2, , topY2, botY2] = player2.coordinates();
@@ -47,6 +50,7 @@ export default class Ball {
     }
   }
 
+  // detect ball-wall bounces
   wallCollision(player1, player2) {
     const hitLeft = this.posX - this.radius <= 0;
     const hitRight = this.posX + this.radius >= this.boardWidth;
@@ -69,7 +73,7 @@ export default class Ball {
     }
   }
 
-
+  // draw the ball where it's supposed to be now
   render(svg, player1, player2) {
     this.posX += this.vx;
     this.posY += this.vy;

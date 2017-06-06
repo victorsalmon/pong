@@ -1,11 +1,13 @@
 import { SVG_NS, COLORS } from '../settings';
 export default class Board {
 
+  // accept settings on how large of a board to draw from config tool
   constructor(width, height) {
     this.width = width;
     this.height = height;
   }
 
+  // draw the board
   render(svg) {
     const rect = document.createElementNS(SVG_NS, 'rect');
     const line = document.createElementNS(SVG_NS, 'line');

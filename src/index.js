@@ -6,7 +6,7 @@ let config = SETTINGS;
 config.paddleWidth = SETTINGS.paddleWidth;
 config.padding = SETTINGS.padding;
 
-//configure
+// quick configuration script
 if (confirm('Do you want to configure pong? If yes, you must enter a value and each must be a number.')) {
     config.ballRadius = parseInt(prompt('In pixels, how big should the ball radius be? (default is 8)', 8))
     config.ballSpeed = parseInt(prompt('In pixels, how fast should the ball fly? (default is 4)', 4))
@@ -19,6 +19,7 @@ if (confirm('Do you want to configure pong? If yes, you must enter a value and e
 // create a game instance
 let game = new Game('game', config);
 
+// run the game
 (function gameLoop() {
     game.render();
     requestAnimationFrame(gameLoop);
